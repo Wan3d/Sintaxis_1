@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.IO;
 
-namespace Lexico_3
+namespace Sintaxis_1
 {
     public class Error : Exception
     {

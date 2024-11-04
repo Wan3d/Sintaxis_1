@@ -1,0 +1,15 @@
+C:\Users\zullo\OneDrive\Escritorio\IV - Semestre\Lenguajes y Automatas I\UV\Sintaxis_1\obj\Debug\net8.0\Sintaxis_1.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\zullo\OneDrive\Escritorio\IV - Semestre\Lenguajes y Automatas I\UV\Sintaxis_1\obj\Debug\net8.0\Sintaxis_1.AssemblyInfoInputs.cache
+C:\Users\zullo\OneDrive\Escritorio\IV - Semestre\Lenguajes y Automatas I\UV\Sintaxis_1\obj\Debug\net8.0\Sintaxis_1.AssemblyInfo.cs
+C:\Users\zullo\OneDrive\Escritorio\IV - Semestre\Lenguajes y Automatas I\UV\Sintaxis_1\obj\Debug\net8.0\Sintaxis_1.csproj.CoreCompileInputs.cache
+C:\Users\zullo\OneDrive\Escritorio\IV - Semestre\Lenguajes y Automatas I\UV\Sintaxis_1\obj\Debug\net8.0\Sintaxis_1.sourcelink.json
+C:\Users\zullo\OneDrive\Escritorio\IV - Semestre\Lenguajes y Automatas I\UV\Sintaxis_1\bin\Debug\net8.0\Sintaxis_1.exe
+C:\Users\zullo\OneDrive\Escritorio\IV - Semestre\Lenguajes y Automatas I\UV\Sintaxis_1\bin\Debug\net8.0\Sintaxis_1.deps.json
+C:\Users\zullo\OneDrive\Escritorio\IV - Semestre\Lenguajes y Automatas I\UV\Sintaxis_1\bin\Debug\net8.0\Sintaxis_1.runtimeconfig.json
+C:\Users\zullo\OneDrive\Escritorio\IV - Semestre\Lenguajes y Automatas I\UV\Sintaxis_1\bin\Debug\net8.0\Sintaxis_1.dll
+C:\Users\zullo\OneDrive\Escritorio\IV - Semestre\Lenguajes y Automatas I\UV\Sintaxis_1\bin\Debug\net8.0\Sintaxis_1.pdb
+C:\Users\zullo\OneDrive\Escritorio\IV - Semestre\Lenguajes y Automatas I\UV\Sintaxis_1\obj\Debug\net8.0\Sintaxis_1.dll
+C:\Users\zullo\OneDrive\Escritorio\IV - Semestre\Lenguajes y Automatas I\UV\Sintaxis_1\obj\Debug\net8.0\refint\Sintaxis_1.dll
+C:\Users\zullo\OneDrive\Escritorio\IV - Semestre\Lenguajes y Automatas I\UV\Sintaxis_1\obj\Debug\net8.0\Sintaxis_1.pdb
+C:\Users\zullo\OneDrive\Escritorio\IV - Semestre\Lenguajes y Automatas I\UV\Sintaxis_1\obj\Debug\net8.0\Sintaxis_1.genruntimeconfig.cache
+C:\Users\zullo\OneDrive\Escritorio\IV - Semestre\Lenguajes y Automatas I\UV\Sintaxis_1\obj\Debug\net8.0\ref\Sintaxis_1.dll

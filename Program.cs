@@ -3,22 +3,27 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Lexico_3
+namespace Sintaxis_1
 {
-    class Program
+    class Program : Token
     {
         static void Main(string[] args)
         {
             try
             {
-                using (Lexico lexico = new Lexico("prueba.cpp"))
+                using (Sintaxis lexico = new Sintaxis("prueba.cpp"))
                 {
-                    while (!lexico.finArchivo())
+                    /*while (!lexico.finArchivo())
                     {
-                        lexico.nextToken(true);
+                        lexico.nextToken();
                     }
                     lexico.log.WriteLine("\n-----------------------------------\n");
-                    lexico.log.WriteLine("Líneas del archivo: " + lexico.linea);
+                    lexico.log.WriteLine("Líneas del archivo: " + lexico.linea);*/
+                    lexico.match("#");
+                    lexico.match("include");
+                    lexico.match("<");
+                    lexico.match(Tipos.Identificador);
+                    lexico.match(">");
                 }
             }
             catch (Exception e)

@@ -9,11 +9,8 @@ using System.Runtime.InteropServices;
 using System.Data.Common;
 using System.IO.Compression;
 using Microsoft.VisualBasic;
-using ClosedXML.Excel;
-using DocumentFormat.OpenXml.Spreadsheet;
-using DocumentFormat.OpenXml;
 
-namespace Lexico_3
+namespace Sintaxis_1
 {
     public class Lexico : Token, IDisposable
     {
@@ -22,10 +19,6 @@ namespace Lexico_3
         public StreamWriter log;
         public StreamWriter asm;
         public int linea = 1;
-
-        XLWorkbook workbook;
-        IXLWorksheet worksheet;
-        // string rutaArchivo = "C:/Users/zullo/OneDrive/Escritorio/IV - Semestre/Lenguajes y Automatas I/UIV/Lexico_3/TRAND3.xlsx";
         const int F = -1;
 
         const int E = -2;
@@ -85,8 +78,6 @@ namespace Lexico_3
             {
                 throw new Error("El archivo prueba.cpp no existe", log);
             }
-            workbook = new XLWorkbook("TRAND3.xlsx");
-            worksheet = workbook.Worksheet(1);
         }
 
         public Lexico(string nombreArchivo)
@@ -108,15 +99,12 @@ namespace Lexico_3
             {
                 throw new FileNotFoundException("La extensión " + Path.GetExtension(nombreArchivo) + " no existe");    /* Defino una excepción que indica que existe un error con el archivo en caso de no ser encontrado */
             }
-            workbook = new XLWorkbook("TRAND3.xlsx");
-            worksheet = workbook.Worksheet(1);
         }
         public void Dispose()
         {
             archivo.Close();
             log.Close();
             asm.Close();
-            workbook.Dispose(); // Limpiar recursos del lector EXCEL
         }
 
         private int Columna(char c)
@@ -274,18 +262,7 @@ namespace Lexico_3
                 case 37: setClasificacion(Tipos.OperadorFactor); break;
             }
         }
-        private int obtenerEstadoDesdeExcel(int estadoActual, char c)
-        {
-            int fila = estadoActual + 1;
-            int columna = Columna(c) + 1;
-            // A ambos se les suma 1 para que inicien en la fila/columna correspondiente de Excel, ya que empieza desde 0 en Excel
-            IXLCell cell = worksheet.Cell(fila, columna); // Obtiene la celda correspondiente
-            string nuevoValor = cell.GetValue<string>(); // Lee el valor como una cadena para poder compararlo
-            if (nuevoValor == "F") return F;
-            else if (nuevoValor == "E") return E;
-            return int.Parse(nuevoValor);
-        }
-        public void nextToken(bool usarMatriz)
+        public void nextToken()
         {
             char c;
             string buffer = "";
@@ -293,14 +270,8 @@ namespace Lexico_3
             while (estado >= 0)
             {
                 c = (char)archivo.Peek();
-                if (usarMatriz)
-                {
-                    estado = TRAND[estado,Columna(c)];
-                }
-                else
-                {
-                    estado = obtenerEstadoDesdeExcel(estado, c);
-                }
+                estado = TRAND[estado, Columna(c)];
+
                 Clasifica(estado);
                 if (estado >= 0)
                 {
