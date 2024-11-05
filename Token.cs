@@ -14,7 +14,7 @@ namespace Sintaxis_1
             OperadorTermino, OperadorFactor, IncrementoTermino,
             IncrementoFactor, Puntero, Asignacion,
             OperadorRelacional, OperadorLogico, Moneda,
-            Cadena
+            Cadena, TipoDato
         }
         private string contenido;
         private Tipos clasificacion;

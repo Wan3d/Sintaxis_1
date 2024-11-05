@@ -312,6 +312,17 @@ namespace Sintaxis_1
             if (!finArchivo())
             {
                 setContenido(buffer);
+                if (getClasificacion() == Tipos.Identificador)
+                {
+                    switch (getContenido())
+                    {
+                        case "char":
+                        case "int":
+                        case "float":
+                            setClasificacion(Tipos.TipoDato);
+                            break;
+                    }
+                }
                 log.WriteLine(getContenido() + " = " + getClasificacion());
             }
         }

@@ -3,3 +3,4 @@ include = Identificador
 < = OperadorRelacional
 iostream = Identificador
 > = OperadorRelacional
+char = TipoDato
