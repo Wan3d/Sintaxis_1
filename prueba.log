@@ -1,6 +1,2 @@
-# = Caracter
-include = Identificador
-< = OperadorRelacional
-iostream = Identificador
-> = OperadorRelacional
-char = TipoDato
+using = Identificador
+System = Identificador
