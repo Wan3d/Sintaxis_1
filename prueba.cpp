@@ -3,15 +3,34 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-char a, b, c, d;
-int radio;
-float area;
-
 static void Main(string[] args)
 {
-  area = radio * radio;
-  x = (3 + 5) * 8 - (10 - 4) / 2;
-  b = 0;
-  c = 10;
-  d = b + c;
+  char a;
+  int b;
+
+
+
+  if (1 == 2)
+  {
+    do
+    {
+      Console.WriteLine(".");
+    } while (a < 10);
+    a = 10;
+    if (1 == 2)
+      a = 20;
+    else
+      a = 30;
+  }
+  else
+  {
+    do
+    {
+      Console.WriteLine(".");
+    } while (a < 5);
+    a = 40;
+    for (a = 0; a < 10; a = 2)
+    {
+    }
+  }
 }

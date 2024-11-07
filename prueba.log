@@ -21,11 +21,24 @@ Threading = Identificador
 . = Caracter
 Tasks = Identificador
 ; = FinSentencia
+static = Identificador
+void = Identificador
+Main = Identificador
+( = Caracter
+string = Identificador
+[ = Caracter
+] = Caracter
+args = Identificador
+) = Caracter
+{ = InicioBloque
 char = TipoDato
 a = Identificador
-, = Caracter
+; = FinSentencia
+int = TipoDato
 b = Identificador
-, = Caracter
-c = Identificador
-d = Identificador
-Error: Sintaxis: se espera un ;
+; = FinSentencia
+if = Identificador
+( = Caracter
+1 = Numero
+== = OperadorRelacional
+Error: Sintaxis. Se espera un (

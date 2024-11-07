@@ -151,11 +151,14 @@ namespace Sintaxis_1
             if (getContenido() == "else")
             {
                 match("else");
-                BloqueInstrucciones();
-            }
-            else
-            {
-                Instruccion();
+                if (getContenido() == "{")
+                {
+                    BloqueInstrucciones();
+                }
+                else
+                {
+                    Instruccion();
+                }
             }
         }
         //Condicion -> Expresion operadorRelacional Expresion
@@ -235,8 +238,16 @@ namespace Sintaxis_1
             {
                 match("Write");
             }
+            match("(");
             match(Tipos.Cadena);
-            //DUDA
+            
+            Concatenaciones();
+            match(")");
+            match(";");
+        }
+        private void Concatenaciones()
+        {
+
         }
         //Main -> static void Main(string[] args) BloqueInstrucciones 
         private void Main()
@@ -261,11 +272,13 @@ namespace Sintaxis_1
         //MasTermino -> (OperadorTermino Termino)?
         private void MasTermino()
         {
+            match("(");
             if (getClasificacion() == Tipos.OperadorTermino)
             {
                 match(Tipos.OperadorTermino);
                 Termino();
             }
+            match(")");
         }
         //Termino -> Factor PorFactor
         private void Termino()
@@ -276,11 +289,13 @@ namespace Sintaxis_1
         //PorFactor -> (OperadorFactor Factor)?
         private void PorFactor()
         {
+            match("(");
             if (getClasificacion() == Tipos.OperadorFactor)
             {
                 match(Tipos.OperadorFactor);
                 Factor();
             }
+            match(")");
         }
         //Factor -> numero | identificador | (Expresion)
         private void Factor()
@@ -300,6 +315,7 @@ namespace Sintaxis_1
                 match(")");
             }
         }
+
         /*SNT = Producciones = Invocar el metodo
         ST  = Tokens (Contenido | Classification) = Invocar match    Variables -> tipo_dato Lista_identificadores; Variables?*/
     }
