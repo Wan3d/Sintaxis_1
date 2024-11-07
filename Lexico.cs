@@ -309,9 +309,9 @@ namespace Sintaxis_1
                     throw new Error("léxico, se espera fin de comentario", log, linea);
                 }
             }
+            setContenido(buffer);
             if (!finArchivo())
             {
-                setContenido(buffer);
                 if (getClasificacion() == Tipos.Identificador)
                 {
                     switch (getContenido())

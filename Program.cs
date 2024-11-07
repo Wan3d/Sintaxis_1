@@ -5,25 +5,15 @@ using System.Threading.Tasks;
 
 namespace Sintaxis_1
 {
-    class Program : Token
+    public class Program : Token
     {
         static void Main(string[] args)
         {
             try
             {
-                using (Sintaxis lexico = new Sintaxis("prueba.cpp"))
+                using (Lenguaje lexico = new("prueba.cpp"))
                 {
-                    /*while (!lexico.finArchivo())
-                    {
-                        lexico.nextToken();
-                    }
-                    lexico.log.WriteLine("\n-----------------------------------\n");
-                    lexico.log.WriteLine("Líneas del archivo: " + lexico.linea);*/
-                    lexico.match("#");
-                    lexico.match("include");
-                    lexico.match("<");
-                    lexico.match(Tipos.Identificador);
-                    lexico.match(">");
+                    lexico.Programa();
                 }
             }
             catch (Exception e)

@@ -1,2 +1,31 @@
 using = Identificador
+Constructor lenguaje
 System = Identificador
+; = FinSentencia
+using = Identificador
+System = Identificador
+. = Caracter
+Collections = Identificador
+. = Caracter
+Generic = Identificador
+; = FinSentencia
+using = Identificador
+System = Identificador
+. = Caracter
+Linq = Identificador
+; = FinSentencia
+using = Identificador
+System = Identificador
+. = Caracter
+Threading = Identificador
+. = Caracter
+Tasks = Identificador
+; = FinSentencia
+char = TipoDato
+a = Identificador
+, = Caracter
+b = Identificador
+, = Caracter
+c = Identificador
+d = Identificador
+Error: Sintaxis: se espera un ;

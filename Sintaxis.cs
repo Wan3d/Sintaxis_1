@@ -23,9 +23,7 @@ namespace Sintaxis_1
             }
             else
             {
-                // CORREGIR ERRORES
-                Console.WriteLine("Mondongo");
-                // throw new Error("Sintaxis: se espera un " + contenido);
+                throw new Error("Sintaxis. Se espera un " + contenido,log);
             }
         }
         public void match(Tipos clasificacion)
@@ -36,9 +34,7 @@ namespace Sintaxis_1
             }
             else
             {
-                // CORREGIR ERRORES
-                Console.WriteLine("Mondongo");
-                // throw new Error("Sintaxis: se espera un " + clasificacion);
+                throw new Error("Sintaxis. Se espera un " + clasificacion,log);
             }
         }
     }

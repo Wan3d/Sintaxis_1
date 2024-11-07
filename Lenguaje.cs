@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -135,34 +136,107 @@ namespace Sintaxis_1
         (else bloqueInstrucciones | instruccion)?*/
         private void If()
         {
-
+            match("if");
+            match("(");
+            Condicion();
+            match(")");
+            if (getContenido() == "{")
+            {
+                BloqueInstrucciones();
+            }
+            else
+            {
+                Instruccion();
+            }
+            if (getContenido() == "else")
+            {
+                match("else");
+                BloqueInstrucciones();
+            }
+            else
+            {
+                Instruccion();
+            }
         }
         //Condicion -> Expresion operadorRelacional Expresion
         private void Condicion()
         {
-
+            Expresion();
+            match(Tipos.OperadorRelacional);
+            Expresion();
         }
         //While -> while(Condicion) bloqueInstrucciones | instruccion
         private void While()
         {
-
+            match("while");
+            match("(");
+            Condicion();
+            match(")");
+            if (getContenido() == "{")
+            {
+                BloqueInstrucciones();
+            }
+            else
+            {
+                Instruccion();
+            }
         }
         /*Do -> do 
-            bloqueInstrucciones | intruccion 
+        bloqueInstrucciones | intruccion 
         while(Condicion);*/
         private void Do()
         {
+            match("do");
+            if (getContenido() == "{")
+            {
+                BloqueInstrucciones();
+            }
+            else
+            {
+                Instruccion();
+            }
+            match("while");
+            match("(");
+            Condicion();
+            match(")");
+            match(";");
         }
         /*For -> for(Asignacion; Condicion; Asignacion) 
         BloqueInstrucciones | Intruccion*/
         private void For()
         {
-
+            match("for");
+            match("(");
+            Asignacion();
+            match(";");
+            Condicion();
+            match(";");
+            Asignacion();
+            match(")");
+            if (getContenido() == "{")
+            {
+                BloqueInstrucciones();
+            }
+            else
+            {
+                Instruccion();
+            }
         }
         //Console -> Console.(WriteLine|Write) (cadena concatenaciones?);
         private void console()
         {
-
+            match("Console");
+            match(".");
+            if (getContenido() == "WriteLine")
+            {
+                match("WriteLine");
+            }
+            else
+            {
+                match("Write");
+            }
+            match(Tipos.Cadena);
+            //DUDA
         }
         //Main -> static void Main(string[] args) BloqueInstrucciones 
         private void Main()
@@ -172,7 +246,11 @@ namespace Sintaxis_1
             match("Main");
             match("(");
             match("string");
-            match("[]");
+            match("[");
+            match("]");
+            match("args");
+            match(")");
+            BloqueInstrucciones();
         }
         // Expresion -> Termino MasTermino
         private void Expresion()
@@ -183,7 +261,7 @@ namespace Sintaxis_1
         //MasTermino -> (OperadorTermino Termino)?
         private void MasTermino()
         {
-            if (getClasificacion() == Tipos.OperadorTermino) ;
+            if (getClasificacion() == Tipos.OperadorTermino)
             {
                 match(Tipos.OperadorTermino);
                 Termino();
