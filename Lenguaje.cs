@@ -1,3 +1,19 @@
+/*
+REQUERIMIENTOS:
+    1) Indicar en el error Léxico o sintáctico el número de línea y caracter
+    2) En el log colocar el nombre del archivo a compilar, la fecha y la hora
+    3)  Agregar el resto de asignaciones
+Asignacion -> Id = Expresion
+            Id++
+            Id--
+            Id IncrementoTermino Expresion
+            Id IncrementoFactor Expresion
+            Id = Console.Read()
+            Id = Console.ReadLine()
+    4) Emular el Console.Write() & Console.WriteLine()
+    5) Emular el Console.Read() & Console.ReadLine()
+*/
+
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
@@ -79,7 +95,10 @@ namespace Sintaxis_1
         private void BloqueInstrucciones()
         {
             match("{");
-            ListaInstrucciones();
+            if (getContenido() != "}")
+            {
+                ListaInstrucciones();
+            }
             match("}");
         }
         //ListaInstrucciones -> Instruccion ListaInstrucciones?
@@ -122,6 +141,7 @@ namespace Sintaxis_1
             else
             {
                 Asignacion();
+                match(";");
             }
         }
         //Asignacion -> Identificador = Expresion;
@@ -130,7 +150,6 @@ namespace Sintaxis_1
             match(Tipos.Identificador);
             match("=");
             Expresion();
-            match(";");
         }
         /*If -> if (Condicion) bloqueInstrucciones | instruccion
         (else bloqueInstrucciones | instruccion)?*/
@@ -239,8 +258,8 @@ namespace Sintaxis_1
                 match("Write");
             }
             match("(");
+            Console.WriteLine(getContenido().Trim('"')); //QUE NO MUESTRE LAS COMILLAS, USAR MÉTODO
             match(Tipos.Cadena);
-            
             Concatenaciones();
             match(")");
             match(";");
@@ -272,13 +291,11 @@ namespace Sintaxis_1
         //MasTermino -> (OperadorTermino Termino)?
         private void MasTermino()
         {
-            match("(");
             if (getClasificacion() == Tipos.OperadorTermino)
             {
                 match(Tipos.OperadorTermino);
                 Termino();
             }
-            match(")");
         }
         //Termino -> Factor PorFactor
         private void Termino()
@@ -289,13 +306,11 @@ namespace Sintaxis_1
         //PorFactor -> (OperadorFactor Factor)?
         private void PorFactor()
         {
-            match("(");
             if (getClasificacion() == Tipos.OperadorFactor)
             {
                 match(Tipos.OperadorFactor);
                 Factor();
             }
-            match(")");
         }
         //Factor -> numero | identificador | (Expresion)
         private void Factor()

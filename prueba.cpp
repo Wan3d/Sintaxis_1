@@ -31,6 +31,7 @@ static void Main(string[] args)
     a = 40;
     for (a = 0; a < 10; a = 2)
     {
+
     }
   }
 }

@@ -102,6 +102,8 @@ namespace Sintaxis_1
         }
         public void Dispose()
         {
+            DateTime ahora = DateTime.Now;
+            log.WriteLine("Hora: " + ahora.ToString());
             archivo.Close();
             log.Close();
             asm.Close();
@@ -320,6 +322,13 @@ namespace Sintaxis_1
                         case "int":
                         case "float":
                             setClasificacion(Tipos.TipoDato);
+                            break;
+                        case "if":
+                        case "else":
+                        case "do":
+                        case "while":
+                        case "for":
+                            setClasificacion(Tipos.PalabraReservada);
                             break;
                     }
                 }
