@@ -1,9 +1,9 @@
 /*
 REQUERIMIENTOS:
-    1) Indicar en el error Léxico o sintáctico el número de línea y caracter
-    2) En el log colocar el nombre del archivo a compilar, la fecha y la hora
-    3)  Agregar el resto de asignaciones
-Asignacion -> Id = Expresion
+    1) Indicar en el error Léxico o sintáctico, el número de línea y caracter (DUDA)
+    2) En el log colocar el nombre del archivo a compilar, la fecha y la hora (DONE)
+    3)  Agregar el resto de asignaciones (DUDA)
+            Asignacion -> Id = Expresion
             Id++
             Id--
             Id IncrementoTermino Expresion
@@ -145,11 +145,68 @@ namespace Sintaxis_1
             }
         }
         //Asignacion -> Identificador = Expresion;
+        /*
+        Id++
+        Id--
+        Id IncrementoTermino Expresion (DONE)
+        Id IncrementoFactor Expresion (DONE)
+        Id = Console.Read() (DONE)
+        Id = Console.ReadLine() (DONE)
+        */
         private void Asignacion()
         {
-            match(Tipos.Identificador);
-            match("=");
-            Expresion();
+            if (getClasificacion() == Tipos.Identificador)
+            {
+                match(Tipos.Identificador);
+                if (getContenido() == "+")
+                {
+                    match("+");
+                    if (getContenido() == "+")
+                    {
+                        match("+");
+                    }
+                }
+                else if (getContenido() == "-")
+                {
+                    match("-");
+                    if (getContenido() == "-")
+                    {
+                        match("-");
+                    }
+                }
+                else if (getClasificacion() == Tipos.IncrementoTermino)
+                {
+                    match(Tipos.IncrementoTermino);
+                    Expresion();
+                }
+                else if (getClasificacion() == Tipos.IncrementoFactor)
+                {
+                    Expresion();
+                }
+                else if (getContenido() == "=")
+                {
+                    match("Console");
+                    match(".");
+                    if (getContenido() == "Read")
+                    {
+                        match("Read");
+                        match("(");
+                        match(")");
+                    }
+                    else if (getContenido() == "ReadLine")
+                    {
+                        match("ReadLine");
+                        match("(");
+                        match(")");
+                    }
+                }
+                else
+                {
+                    match("=");
+                    Expresion();
+                }
+            }
+
         }
         /*If -> if (Condicion) bloqueInstrucciones | instruccion
         (else bloqueInstrucciones | instruccion)?*/

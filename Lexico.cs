@@ -82,6 +82,7 @@ namespace Sintaxis_1
 
         public Lexico(string nombreArchivo)
         {
+
             string nombreArchivoWithoutExt = Path.GetFileNameWithoutExtension(nombreArchivo);   /* Obtenemos el nombre del archivo sin la extensión para poder crear el .log y .asm */
             if (File.Exists(nombreArchivo))
             {
@@ -90,6 +91,10 @@ namespace Sintaxis_1
                 log.AutoFlush = true;
                 asm.AutoFlush = true;
                 archivo = new StreamReader(nombreArchivo);
+                DateTime ahora = DateTime.Now;
+                log.WriteLine("Archivo: " + nombreArchivo);
+                log.WriteLine("Fecha y hora: " + ahora.ToString());
+                log.WriteLine("----------------------------------");
             }
             else if (Path.GetExtension(nombreArchivo) != ".cpp")
             {
@@ -102,8 +107,6 @@ namespace Sintaxis_1
         }
         public void Dispose()
         {
-            DateTime ahora = DateTime.Now;
-            log.WriteLine("Hora: " + ahora.ToString());
             archivo.Close();
             log.Close();
             asm.Close();
@@ -269,11 +272,11 @@ namespace Sintaxis_1
             char c;
             string buffer = "";
             int estado = 0;
+
             while (estado >= 0)
             {
                 c = (char)archivo.Peek();
                 estado = TRAND[estado, Columna(c)];
-
                 Clasifica(estado);
                 if (estado >= 0)
                 {
