@@ -1,5 +1,5 @@
 Archivo: prueba.cpp
-Fecha y hora: 12/11/2024 11:56:08
+Fecha y hora: 13/11/2024 15:46:16
 ----------------------------------
 using = Identificador
 Constructor lenguaje
@@ -66,4 +66,61 @@ a = Identificador
 ; = FinSentencia
 a = Identificador
 = = Asignacion
-Error: Sintaxis. Se espera un Console en la linea {19}
+10 = Numero
+; = FinSentencia
+if = PalabraReservada
+( = Caracter
+1 = Numero
+== = OperadorRelacional
+2 = Numero
+) = Caracter
+a = Identificador
+= = Asignacion
+20 = Numero
+; = FinSentencia
+else = PalabraReservada
+a = Identificador
+= = Asignacion
+30 = Numero
+; = FinSentencia
+} = FinBloque
+else = PalabraReservada
+{ = InicioBloque
+do = PalabraReservada
+{ = InicioBloque
+Console = Identificador
+. = Caracter
+WriteLine = Identificador
+( = Caracter
+"." = Cadena
+) = Caracter
+; = FinSentencia
+} = FinBloque
+while = PalabraReservada
+( = Caracter
+a = Identificador
+< = OperadorRelacional
+5 = Numero
+) = Caracter
+; = FinSentencia
+a = Identificador
+= = Asignacion
+40 = Numero
+; = FinSentencia
+for = PalabraReservada
+( = Caracter
+a = Identificador
+= = Asignacion
+0 = Numero
+; = FinSentencia
+a = Identificador
+< = OperadorRelacional
+10 = Numero
+; = FinSentencia
+a = Identificador
+++ = IncrementoTermino
+) = Caracter
+{ = InicioBloque
+} = FinBloque
+} = FinBloque
+} = FinBloque

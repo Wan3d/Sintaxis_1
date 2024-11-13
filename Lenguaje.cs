@@ -2,8 +2,9 @@
 REQUERIMIENTOS:
     1) Indicar en el error Léxico o sintáctico, el número de línea y caracter (DUDA)
     2) En el log colocar el nombre del archivo a compilar, la fecha y la hora (DONE)
-    3)  Agregar el resto de asignaciones (DUDA)
-            Asignacion -> Id = Expresion
+    3)  Agregar el resto de asignaciones (DONE)
+            Asignacion -> 
+            Id = Expresion
             Id++
             Id--
             Id IncrementoTermino Expresion
@@ -99,7 +100,10 @@ namespace Sintaxis_1
             {
                 ListaInstrucciones();
             }
+            else
+            {
             match("}");
+            }
         }
         //ListaInstrucciones -> Instruccion ListaInstrucciones?
         private void ListaInstrucciones()
@@ -108,6 +112,10 @@ namespace Sintaxis_1
             if (getContenido() != "}")
             {
                 ListaInstrucciones();
+            }
+            else
+            {
+                match("}");
             }
         }
 
@@ -155,58 +163,48 @@ namespace Sintaxis_1
         */
         private void Asignacion()
         {
-            if (getClasificacion() == Tipos.Identificador)
+            match(Tipos.Identificador);
+            if (getContenido() == "++")
             {
-                match(Tipos.Identificador);
-                if (getContenido() == "+")
-                {
-                    match("+");
-                    if (getContenido() == "+")
-                    {
-                        match("+");
-                    }
-                }
-                else if (getContenido() == "-")
-                {
-                    match("-");
-                    if (getContenido() == "-")
-                    {
-                        match("-");
-                    }
-                }
-                else if (getClasificacion() == Tipos.IncrementoTermino)
-                {
-                    match(Tipos.IncrementoTermino);
-                    Expresion();
-                }
-                else if (getClasificacion() == Tipos.IncrementoFactor)
-                {
-                    Expresion();
-                }
-                else if (getContenido() == "=")
+                match("++");
+            }
+            else if (getContenido() == "--")
+            {
+                match("--");
+            }
+            else if (getClasificacion() == Tipos.IncrementoTermino)
+            {
+                match(Tipos.IncrementoTermino);
+                Expresion();
+            }
+            else if (getClasificacion() == Tipos.IncrementoFactor)
+            {
+                match(Tipos.IncrementoFactor);
+                Expresion();
+            }
+            else if (getContenido() == "=")
+            {
+                match("=");
+                if (getContenido() == "Console")
                 {
                     match("Console");
                     match(".");
                     if (getContenido() == "Read")
                     {
                         match("Read");
-                        match("(");
-                        match(")");
                     }
-                    else if (getContenido() == "ReadLine")
+                    else
                     {
                         match("ReadLine");
-                        match("(");
-                        match(")");
                     }
+                    match("(");
+                    match(")");
                 }
                 else
                 {
-                    match("=");
                     Expresion();
                 }
             }
-
         }
         /*If -> if (Condicion) bloqueInstrucciones | instruccion
         (else bloqueInstrucciones | instruccion)?*/
@@ -387,7 +385,6 @@ namespace Sintaxis_1
                 match(")");
             }
         }
-
         /*SNT = Producciones = Invocar el metodo
         ST  = Tokens (Contenido | Classification) = Invocar match    Variables -> tipo_dato Lista_identificadores; Variables?*/
     }

@@ -8,15 +8,13 @@ static void Main(string[] args)
   char a;
   int b;
 
-
-
   if (1 == 2)
   {
     do
     {
       Console.WriteLine(".");
     } while (a < 10);
-    a = 10;
+        a = 10;
     if (1 == 2)
       a = 20;
     else
@@ -29,9 +27,8 @@ static void Main(string[] args)
       Console.WriteLine(".");
     } while (a < 5);
     a = 40;
-    for (a = 0; a < 10; a = 2)
+    for (a = 0; a < 10; a++)
     {
-
     }
   }
 }

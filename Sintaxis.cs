@@ -23,7 +23,7 @@ namespace Sintaxis_1
             }
             else
             {
-                throw new Error("Sintaxis. Se espera un " + contenido,log,linea);
+                throw new Error("Sintaxis. Se espera un " + contenido, log, linea);
             }
         }
         public void match(Tipos clasificacion)
@@ -34,7 +34,7 @@ namespace Sintaxis_1
             }
             else
             {
-                throw new Error("Sintaxis. Se espera un " + clasificacion,log,linea);
+                throw new Error("Sintaxis. Se espera un " + clasificacion, log, linea);
             }
         }
     }

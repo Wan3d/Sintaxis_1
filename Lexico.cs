@@ -272,7 +272,6 @@ namespace Sintaxis_1
             char c;
             string buffer = "";
             int estado = 0;
-
             while (estado >= 0)
             {
                 c = (char)archivo.Peek();
