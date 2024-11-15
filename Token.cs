@@ -15,8 +15,6 @@ namespace Sintaxis_1
             IncrementoFactor, Puntero, Asignacion,
             OperadorRelacional, OperadorLogico, Moneda,
             Cadena, TipoDato, PalabraReservada
-
-
         }
         private string contenido;
         private Tipos clasificacion;

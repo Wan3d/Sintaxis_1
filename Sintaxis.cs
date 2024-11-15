@@ -7,6 +7,7 @@ namespace Sintaxis_1
 {
     public class Sintaxis : Lexico
     {
+        public int columna = 1;
         public Sintaxis() : base()
         {
             nextToken();
@@ -14,6 +15,7 @@ namespace Sintaxis_1
         public Sintaxis(string nombre) : base(nombre)
         {
             nextToken();
+            columna++;
         }
         public void match(string contenido)
         {

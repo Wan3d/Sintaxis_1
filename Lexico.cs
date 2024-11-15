@@ -14,14 +14,13 @@ namespace Sintaxis_1
 {
     public class Lexico : Token, IDisposable
     {
-
         public StreamReader archivo;
         public StreamWriter log;
         public StreamWriter asm;
         public int linea = 1;
         const int F = -1;
-
         const int E = -2;
+        //public int cont = 1;
 
         int[,] TRAND = {
             {0,1,2,33,1,12,14,8,9,10,11,23,16,16,18,20,21,26,25,27,29,32,34,0,F,33},
@@ -277,12 +276,14 @@ namespace Sintaxis_1
                 c = (char)archivo.Peek();
                 estado = TRAND[estado, Columna(c)];
                 Clasifica(estado);
+                //cont++;
                 if (estado >= 0)
                 {
                     archivo.Read();
                     if (c == '\n')
                     {
                         linea++;
+                       // cont = 1;
                     }
                     if (estado > 0)
                     {

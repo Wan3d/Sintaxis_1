@@ -1,6 +1,6 @@
 /*
 REQUERIMIENTOS:
-    1) Indicar en el error Léxico o sintáctico, el número de línea y caracter (DUDA)
+    1) Indicar en el error Léxico o sintáctico, el número de línea y caracter (%)
     2) En el log colocar el nombre del archivo a compilar, la fecha y la hora (DONE)
     3)  Agregar el resto de asignaciones (DONE)
             Asignacion -> 
@@ -102,7 +102,7 @@ namespace Sintaxis_1
             }
             else
             {
-            match("}");
+                match("}");
             }
         }
         //ListaInstrucciones -> Instruccion ListaInstrucciones?
@@ -299,7 +299,7 @@ namespace Sintaxis_1
                 Instruccion();
             }
         }
-        //Console -> Console.(WriteLine|Write) (cadena concatenaciones?);
+        //Console -> Console.(WriteLine|Write) (cadena? concatenaciones?);
         private void console()
         {
             match("Console");
@@ -313,9 +313,12 @@ namespace Sintaxis_1
                 match("Write");
             }
             match("(");
-            Console.WriteLine(getContenido().Trim('"')); //QUE NO MUESTRE LAS COMILLAS, USAR MÉTODO
-            match(Tipos.Cadena);
-            Concatenaciones();
+            if (getClasificacion() == Tipos.Cadena)
+            {
+                Console.WriteLine(getContenido().Trim('"')); //QUE NO MUESTRE LAS COMILLAS, USAR MÉTODO
+                match(Tipos.Cadena);
+                Concatenaciones();
+            }
             match(")");
             match(";");
         }
