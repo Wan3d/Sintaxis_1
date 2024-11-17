@@ -1,8 +1,8 @@
 /*
 REQUERIMIENTOS:
-    1) Indicar en el error Léxico o sintáctico, el número de línea y caracter (50%)
-    2) En el log colocar el nombre del archivo a compilar, la fecha y la hora (DONE)
-    3)  Agregar el resto de asignaciones (DONE)
+    1) Indicar en el error Léxico o sintáctico, el número de línea y caracter [DONE (CONFIRMAR SI ESTÁ CORRECTO CON MEMO)]
+    2) En el log colocar el nombre del archivo a compilar, la fecha y la hora [DONE]
+    3)  Agregar el resto de asignaciones [DONE]
             Asignacion -> 
             Id = Expresion
             Id++
@@ -11,8 +11,8 @@ REQUERIMIENTOS:
             Id IncrementoFactor Expresion
             Id = Console.Read()
             Id = Console.ReadLine()
-    4) Emular el Console.Write() & Console.WriteLine()
-    5) Emular el Console.Read() & Console.ReadLine()
+    4) Emular el Console.Write() & Console.WriteLine() [DONE (CONFIRMAR SI ESTÁ CORRECTO CON MEMO)] 
+    5) Emular el Console.Read() & Console.ReadLine() [DONE (CONFIRMAR SI ESTÁ CORRECTO CON MEMO)] 
 */
 
 using System;
@@ -25,7 +25,10 @@ namespace Sintaxis_1
 {
     public class Lenguaje : Sintaxis
     {
-        public bool flag = false;
+        public bool isConsoleRead = false;
+
+        public bool isWriteLine = false;
+
         public Lenguaje() : base()
         {
             log.WriteLine("Constructor lenguaje");
@@ -193,13 +196,23 @@ namespace Sintaxis_1
                     if (getContenido() == "Read")
                     {
                         match("Read");
+                        isConsoleRead = true;
                     }
-                    else
+                    else if (getContenido() == "ReadLine")
                     {
                         match("ReadLine");
+                        isConsoleRead = false;
                     }
                     match("(");
                     match(")");
+                    if (isConsoleRead)
+                    {
+                        Console.Read();
+                    }
+                    else
+                    {
+                        Console.ReadLine();
+                    }
                 }
                 else
                 {
@@ -308,30 +321,31 @@ namespace Sintaxis_1
             if (getContenido() == "WriteLine")
             {
                 match("WriteLine");
-                flag = true;
+                isWriteLine = true;
             }
-            else
+            else if (getContenido() == "Write")
             {
                 match("Write");
+                isWriteLine = false;
             }
             match("(");
+            string contenido = "";
             if (getClasificacion() == Tipos.Cadena)
             {
-                if (flag == true)
-                {
-                    Console.WriteLine(getContenido().Trim('"')); //DUDA
-                    match(Tipos.Cadena);
-                    Concatenaciones();
-                }
-                else
-                {
-                    Console.Write(getContenido().Trim('"')); //DUDA
-                    match(Tipos.Cadena);
-                    Concatenaciones();
-                }
+                contenido = getContenido().Trim('"');
+                match(Tipos.Cadena);
+                Concatenaciones();
             }
             match(")");
             match(";");
+            if (isWriteLine)
+            {
+                Console.WriteLine(contenido);
+            }
+            else
+            {
+                Console.Write(contenido);
+            }
         }
         private void Concatenaciones()
         {
