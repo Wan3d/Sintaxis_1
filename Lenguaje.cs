@@ -1,6 +1,6 @@
 /*
 REQUERIMIENTOS:
-    1) Indicar en el error Léxico o sintáctico, el número de línea y caracter (%)
+    1) Indicar en el error Léxico o sintáctico, el número de línea y caracter (50%)
     2) En el log colocar el nombre del archivo a compilar, la fecha y la hora (DONE)
     3)  Agregar el resto de asignaciones (DONE)
             Asignacion -> 
@@ -25,6 +25,7 @@ namespace Sintaxis_1
 {
     public class Lenguaje : Sintaxis
     {
+        public bool flag = false;
         public Lenguaje() : base()
         {
             log.WriteLine("Constructor lenguaje");
@@ -307,6 +308,7 @@ namespace Sintaxis_1
             if (getContenido() == "WriteLine")
             {
                 match("WriteLine");
+                flag = true;
             }
             else
             {
@@ -315,9 +317,18 @@ namespace Sintaxis_1
             match("(");
             if (getClasificacion() == Tipos.Cadena)
             {
-                Console.WriteLine(getContenido().Trim('"')); //QUE NO MUESTRE LAS COMILLAS, USAR MÉTODO
-                match(Tipos.Cadena);
-                Concatenaciones();
+                if (flag == true)
+                {
+                    Console.WriteLine(getContenido().Trim('"')); //DUDA
+                    match(Tipos.Cadena);
+                    Concatenaciones();
+                }
+                else
+                {
+                    Console.Write(getContenido().Trim('"')); //DUDA
+                    match(Tipos.Cadena);
+                    Concatenaciones();
+                }
             }
             match(")");
             match(";");

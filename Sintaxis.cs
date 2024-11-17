@@ -7,7 +7,6 @@ namespace Sintaxis_1
 {
     public class Sintaxis : Lexico
     {
-        public int columna = 1;
         public Sintaxis() : base()
         {
             nextToken();
@@ -15,7 +14,6 @@ namespace Sintaxis_1
         public Sintaxis(string nombre) : base(nombre)
         {
             nextToken();
-            columna++;
         }
         public void match(string contenido)
         {
@@ -25,7 +23,7 @@ namespace Sintaxis_1
             }
             else
             {
-                throw new Error("Sintaxis. Se espera un " + contenido, log, linea);
+                throw new Error("Sintaxis. Se espera un " + contenido, log, linea, columna);
             }
         }
         public void match(Tipos clasificacion)
@@ -36,7 +34,7 @@ namespace Sintaxis_1
             }
             else
             {
-                throw new Error("Sintaxis. Se espera un " + clasificacion, log, linea);
+                throw new Error("Sintaxis. Se espera un " + clasificacion, log, linea, columna);
             }
         }
     }
