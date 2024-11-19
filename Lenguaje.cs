@@ -25,10 +25,6 @@ namespace Sintaxis_1
 {
     public class Lenguaje : Sintaxis
     {
-        public bool isConsoleRead = false;
-
-        public bool isWriteLine = false;
-
         public Lenguaje() : base()
         {
             log.WriteLine("Constructor lenguaje");
@@ -196,23 +192,15 @@ namespace Sintaxis_1
                     if (getContenido() == "Read")
                     {
                         match("Read");
-                        isConsoleRead = true;
+                        Console.Read();
                     }
                     else if (getContenido() == "ReadLine")
                     {
                         match("ReadLine");
-                        isConsoleRead = false;
+                        Console.ReadLine();
                     }
                     match("(");
                     match(")");
-                    if (isConsoleRead)
-                    {
-                        Console.Read();
-                    }
-                    else
-                    {
-                        Console.ReadLine();
-                    }
                 }
                 else
                 {
@@ -316,6 +304,7 @@ namespace Sintaxis_1
         //Console -> Console.(WriteLine|Write) (cadena? concatenaciones?);
         private void console()
         {
+            bool isWriteLine = false;
             match("Console");
             match(".");
             if (getContenido() == "WriteLine")
@@ -323,10 +312,9 @@ namespace Sintaxis_1
                 match("WriteLine");
                 isWriteLine = true;
             }
-            else if (getContenido() == "Write")
+            else
             {
                 match("Write");
-                isWriteLine = false;
             }
             match("(");
             string contenido = "";
@@ -335,17 +323,22 @@ namespace Sintaxis_1
                 contenido = getContenido().Trim('"');
                 match(Tipos.Cadena);
                 Concatenaciones();
-            }
-            match(")");
-            match(";");
-            if (isWriteLine)
-            {
-                Console.WriteLine(contenido);
+                if (isWriteLine)
+                {
+                    Console.WriteLine(contenido);
+                }
+                else
+                {
+                    Console.Write(contenido);
+                }
             }
             else
             {
-                Console.Write(contenido);
+                Console.WriteLine();
             }
+            match(")");
+            match(";");
+
         }
         private void Concatenaciones()
         {

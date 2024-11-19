@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 static void Main(string[] args)
 {
     char c;
-    int  a,b,c,d;
-    int  i,k;
+    int a, b, c, d;
+    int i, k;
 
     a = (3 + 5) * 8 - (10 - 4) / 2; // 61
 
