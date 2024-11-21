@@ -1,6 +1,6 @@
 /*
 REQUERIMIENTOS:
-    1) Indicar en el error Léxico o sintáctico, el número de línea y caracter [DONE (CONFIRMAR SI ESTÁ CORRECTO CON MEMO)]
+    1) Indicar en el error Léxico o sintáctico, el número de línea y caracter [DONE]
     2) En el log colocar el nombre del archivo a compilar, la fecha y la hora [DONE]
     3)  Agregar el resto de asignaciones [DONE]
             Asignacion -> 
@@ -11,8 +11,14 @@ REQUERIMIENTOS:
             Id IncrementoFactor Expresion
             Id = Console.Read()
             Id = Console.ReadLine()
-    4) Emular el Console.Write() & Console.WriteLine() [DONE (CONFIRMAR SI ESTÁ CORRECTO CON MEMO)] 
-    5) Emular el Console.Read() & Console.ReadLine() [DONE (CONFIRMAR SI ESTÁ CORRECTO CON MEMO)] 
+    4) Emular el Console.Write() & Console.WriteLine() [DONE] 
+    5) Emular el Console.Read() & Console.ReadLine() [DONE]
+
+NUEVOS REQUERIMIENTOS:
+    1) Concatenación
+    2) Inicializar una variable
+    3) Evaluar las expresiones matemáticas
+    4) Condición, Asignación
 */
 
 using System;
@@ -82,10 +88,15 @@ namespace Sintaxis_1
                 ListaLibrerias();
             }
         }
-        //ListaIdentificadores -> identificador (,ListaIdentificadores)?
+        //ListaIdentificadores -> identificador (= Expresion)? (,ListaIdentificadores)?
         private void ListaIdentificadores()
         {
             match(Tipos.Identificador);
+            if (getContenido() == "=")
+            {
+                match("=");
+                Expresion();
+            }
             if (getContenido() == ",")
             {
                 match(",");
@@ -260,8 +271,7 @@ namespace Sintaxis_1
                 Instruccion();
             }
         }
-        /*Do -> do 
-        bloqueInstrucciones | intruccion 
+        /*Do -> do bloqueInstrucciones | intruccion 
         while(Condicion);*/
         private void Do()
         {
@@ -340,9 +350,24 @@ namespace Sintaxis_1
             match(";");
 
         }
+        // Concatenaciones -> Identificador|Cadena ( + concatenaciones )?
         private void Concatenaciones()
         {
-
+            string contenido2 = "";
+            if (getClasificacion() == Tipos.Identificador)
+            {
+                match(Tipos.Identificador);
+            }
+            else if (getClasificacion() == Tipos.Cadena)
+            {
+                match(Tipos.Cadena);
+                contenido2 = getContenido().Trim('"');
+            }
+            if (getContenido() == "+")
+            {
+                match("+");
+                Concatenaciones();
+            }
         }
         //Main -> static void Main(string[] args) BloqueInstrucciones 
         private void Main()
