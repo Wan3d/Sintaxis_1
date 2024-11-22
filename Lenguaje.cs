@@ -31,16 +31,40 @@ namespace Sintaxis_1
 {
     public class Lenguaje : Sintaxis
     {
+        Stack<float> s;
+        List<Variable> l;
         public Lenguaje() : base()
         {
+            s = new Stack<float>();
+            l = new List<Variable>();
             log.WriteLine("Constructor lenguaje");
         }
         public Lenguaje(string nombre) : base(nombre)
         {
+            s = new Stack<float>();
+            l = new List<Variable>();
             log.WriteLine("Constructor lenguaje");
         }
-        //Programa  -> Librerias? Variables? Main
 
+        private void displayStack()
+        {
+            Console.WriteLine("Contenido del stack: ");
+            foreach (float elemento in s)
+            {
+                Console.WriteLine(elemento);
+            }
+        }
+
+        private void displayLista()
+        {
+            log.WriteLine("Lista de variables: ");
+            foreach (Variable elemento in l)
+            {
+                log.WriteLine($"{elemento.getNombre()} {elemento.GetTipoDato()} {elemento.getValor()}");
+            }
+        }
+
+        //Programa  -> Librerias? Variables? Main
         public void Programa()
         {
             if (getContenido() == "using")
@@ -52,6 +76,7 @@ namespace Sintaxis_1
                 Variables();
             }
             Main();
+            displayLista();
         }
         //Librerias -> using ListaLibrerias; Librerias?
 
@@ -70,8 +95,14 @@ namespace Sintaxis_1
 
         private void Variables()
         {
+            Variable.TipoDato t = Variable.TipoDato.Char;
+            switch(getContenido())
+            {
+                case "int": t = Variable.TipoDato.Int; break;
+                case "float": t = Variable.TipoDato.Float; break;
+            }
             match(Tipos.TipoDato);
-            ListaIdentificadores();
+            ListaIdentificadores(t);
             match(";");
             if (getClasificacion() == Tipos.TipoDato)
             {
@@ -89,8 +120,9 @@ namespace Sintaxis_1
             }
         }
         //ListaIdentificadores -> identificador (= Expresion)? (,ListaIdentificadores)?
-        private void ListaIdentificadores()
+        private void ListaIdentificadores(Variable.TipoDato t)
         {
+            l.Add(new Variable(t,getContenido()));
             match(Tipos.Identificador);
             if (getContenido() == "=")
             {
@@ -100,7 +132,7 @@ namespace Sintaxis_1
             if (getContenido() == ",")
             {
                 match(",");
-                ListaIdentificadores();
+                ListaIdentificadores(t);
             }
         }
         //BloqueInstrucciones -> { listaIntrucciones? }
@@ -174,6 +206,7 @@ namespace Sintaxis_1
         */
         private void Asignacion()
         {
+            Console.Write(getContenido() + " = ");
             match(Tipos.Identificador);
             if (getContenido() == "++")
             {
@@ -218,6 +251,8 @@ namespace Sintaxis_1
                     Expresion();
                 }
             }
+            float r = s.Pop();
+            //displayStack();
         }
         /*If -> if (Condicion) bloqueInstrucciones | instruccion
         (else bloqueInstrucciones | instruccion)?*/
@@ -394,8 +429,17 @@ namespace Sintaxis_1
         {
             if (getClasificacion() == Tipos.OperadorTermino)
             {
+                string operador = getContenido();
                 match(Tipos.OperadorTermino);
                 Termino();
+                Console.Write(operador + " ");
+                float n1 = s.Pop();
+                float n2 = s.Pop();
+                switch (operador)
+                {
+                    case "+": s.Push(n2 + n1); break;
+                    case "-": s.Push(n2 - n1); break;
+                }
             }
         }
         //Termino -> Factor PorFactor
@@ -409,8 +453,18 @@ namespace Sintaxis_1
         {
             if (getClasificacion() == Tipos.OperadorFactor)
             {
+                string operador = getContenido();
                 match(Tipos.OperadorFactor);
                 Factor();
+                Console.Write(operador + " ");
+                float n1 = s.Pop();
+                float n2 = s.Pop();
+                switch (operador)
+                {
+                    case "*": s.Push(n2 * n1); break;
+                    case "/": s.Push(n2 / n1); break;
+                    case "%": s.Push(n2 % n1); break;
+                }
             }
         }
         //Factor -> numero | identificador | (Expresion)
@@ -418,10 +472,14 @@ namespace Sintaxis_1
         {
             if (getClasificacion() == Tipos.Numero)
             {
+                s.Push(float.Parse(getContenido()));
+                Console.Write(getContenido() + " ");
                 match(Tipos.Numero);
             }
             else if (getClasificacion() == Tipos.Identificador)
             {
+                s.Push(0);
+                Console.Write(getContenido() + " ");
                 match(Tipos.Identificador);
             }
             else

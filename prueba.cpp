@@ -8,9 +8,11 @@ static void Main(string[] args)
     char c;
     int a, b, c, d;
     int i, k;
+    float radio, base, area, altura;
 
     a = (3 + 5) * 8 - (10 - 4) / 2; // 61
-
+    c = 0;
+    b = k * a;
     if (1 != 2)
     {
         Console.Write("Ingrese el valor de d = ");
