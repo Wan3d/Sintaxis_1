@@ -1,16 +1,5 @@
 Archivo: prueba.cpp
-Fecha y hora: 22/11/2024 15:58:24
+Fecha y hora: 25/11/2024 15:24:41
 ----------------------------------
 Constructor lenguaje
-Lista de variables: 
-c Char 0
-a Int 0
-b Int 0
-c Int 0
-d Int 0
-i Int 0
-k Int 0
-radio Float 0
-base Float 0
-area Float 0
-altura Float 0
+Error: Sintaxis: La variable e no está definida en la linea [15] en la columna [6]

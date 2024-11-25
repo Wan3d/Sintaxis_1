@@ -15,10 +15,12 @@ REQUERIMIENTOS:
     5) Emular el Console.Read() & Console.ReadLine() [DONE]
 
 NUEVOS REQUERIMIENTOS:
-    1) Concatenación
-    2) Inicializar una variable
-    3) Evaluar las expresiones matemáticas
-    4) Condición, Asignación
+    1) Concatenación [DONE]
+    2) Inicializar una variable desde la declaración
+    3) Evaluar las expresiones matemáticas [DONE]
+    4) Levantar una excepción si en el Console.(Read | ReadLine) no ingresan números 
+    5) Modificar la variablr con el resto de operadores (Incremento de factor y termino)
+    6) Condición
 */
 
 using System;
@@ -90,13 +92,12 @@ namespace Sintaxis_1
                 Librerias();
             }
         }
-
         //Variables -> tipo_dato Lista_identificadores; Variables?
 
         private void Variables()
         {
             Variable.TipoDato t = Variable.TipoDato.Char;
-            switch(getContenido())
+            switch (getContenido())
             {
                 case "int": t = Variable.TipoDato.Int; break;
                 case "float": t = Variable.TipoDato.Float; break;
@@ -122,12 +123,17 @@ namespace Sintaxis_1
         //ListaIdentificadores -> identificador (= Expresion)? (,ListaIdentificadores)?
         private void ListaIdentificadores(Variable.TipoDato t)
         {
-            l.Add(new Variable(t,getContenido()));
+            if (l.Find(variable => variable.getNombre() == getContenido()) != null)
+            {
+                throw new Error("Sintaxis: La variable " + getContenido() + " ya existe", log, linea, columna);
+            }
+            l.Add(new Variable(t, getContenido()));
             match(Tipos.Identificador);
             if (getContenido() == "=")
             {
                 match("=");
                 Expresion();
+                float r = s.Pop();
             }
             if (getContenido() == ",")
             {
@@ -206,7 +212,11 @@ namespace Sintaxis_1
         */
         private void Asignacion()
         {
-            Console.Write(getContenido() + " = ");
+            Variable? v = l.Find(variable => variable.getNombre() == getContenido());
+            {
+                throw new Error("Sintaxis: La variable " + getContenido() + " no está definida", log, linea, columna);
+            }
+            //Console.Write(getContenido() + " = ");
             match(Tipos.Identificador);
             if (getContenido() == "++")
             {
@@ -252,6 +262,7 @@ namespace Sintaxis_1
                 }
             }
             float r = s.Pop();
+            v.setValor(r);
             //displayStack();
         }
         /*If -> if (Condicion) bloqueInstrucciones | instruccion
@@ -260,7 +271,8 @@ namespace Sintaxis_1
         {
             match("if");
             match("(");
-            Condicion();
+            bool resultado = Condicion();
+            Console.WriteLine(resultado);
             match(")");
             if (getContenido() == "{")
             {
@@ -284,11 +296,23 @@ namespace Sintaxis_1
             }
         }
         //Condicion -> Expresion operadorRelacional Expresion
-        private void Condicion()
+        private bool Condicion()
         {
             Expresion();
+            float valor1 = s.Pop();
+            string operador = getContenido();
             match(Tipos.OperadorRelacional);
             Expresion();
+            float valor2 = s.Pop();
+            switch (operador)
+            {
+                case ">": return valor1 > valor2;
+                case ">=": return valor1 >= valor2;
+                case "<": return valor1 < valor2;
+                case "<=": return valor1 <= valor2;
+                case "==": return valor1 == valor2;
+                default: return valor1 != valor2;
+            }
         }
         //While -> while(Condicion) bloqueInstrucciones | instruccion
         private void While()
@@ -432,7 +456,7 @@ namespace Sintaxis_1
                 string operador = getContenido();
                 match(Tipos.OperadorTermino);
                 Termino();
-                Console.Write(operador + " ");
+                //Console.Write(operador + " ");
                 float n1 = s.Pop();
                 float n2 = s.Pop();
                 switch (operador)
@@ -456,7 +480,7 @@ namespace Sintaxis_1
                 string operador = getContenido();
                 match(Tipos.OperadorFactor);
                 Factor();
-                Console.Write(operador + " ");
+                //Console.Write(operador + " ");
                 float n1 = s.Pop();
                 float n2 = s.Pop();
                 switch (operador)
@@ -473,13 +497,20 @@ namespace Sintaxis_1
             if (getClasificacion() == Tipos.Numero)
             {
                 s.Push(float.Parse(getContenido()));
-                Console.Write(getContenido() + " ");
+                //Console.Write(getContenido() + " ");
                 match(Tipos.Numero);
             }
             else if (getClasificacion() == Tipos.Identificador)
             {
-                s.Push(0);
-                Console.Write(getContenido() + " ");
+                Variable? v = l.Find(variable => variable.getNombre() == getContenido());
+
+                if (v == null)
+                {
+                    throw new Error("Sintaxis: la variable " + getContenido() + " no está definida ", log, linea, columna);
+                }
+
+                s.Push(v.getValor());
+                //Console.Write(getContenido() + " ");
                 match(Tipos.Identificador);
             }
             else
