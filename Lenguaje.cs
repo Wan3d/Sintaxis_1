@@ -15,9 +15,9 @@ REQUERIMIENTOS:
     5) Emular el Console.Read() & Console.ReadLine() [DONE]
 
 NUEVOS REQUERIMIENTOS:
-    1) Concatenación [A FALTA DE CONFIRMAR]
-    2) Inicializar una variable desde la declaración [A FALTA DE CONFIRMAR]
-    3) Evaluar las expresiones matemáticas [A FALTA DE CONFIRMAR]
+    1) Concatenación [DONE]
+    2) Inicializar una variable desde la declaración [DONE]
+    3) Evaluar las expresiones matemáticas [DONE]
     4) Levantar una excepción si en el Console.(Read | ReadLine) no ingresan números 
     5) Modificar la variable con el resto de operadores (Incremento de factor y termino)
     6) Implementar el else
@@ -134,6 +134,8 @@ namespace Sintaxis_1
                 match("=");
                 Expresion();
                 float r = s.Pop();
+                Variable v = l.Last();
+                v.setValor(r);
             }
             if (getContenido() == ",")
             {
@@ -201,10 +203,10 @@ namespace Sintaxis_1
                 match(";");
             }
         }
-        //Asignacion -> Identificador = Expresion;
+        //Asignacion -> Identificador = Expresion; (DONE)
         /*
-        Id++
-        Id--
+        Id++ (DONE)
+        Id-- (DONE)
         Id IncrementoTermino Expresion (DONE)
         Id IncrementoFactor Expresion (DONE)
         Id = Console.Read() (DONE)
