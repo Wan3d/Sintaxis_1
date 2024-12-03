@@ -1,5 +1,5 @@
 Archivo: prueba.cpp
-Fecha y hora: 02/12/2024 21:37:41
+Fecha y hora: 02/12/2024 23:08:35
 ----------------------------------
 using = Identificador
 Constructor lenguaje
@@ -35,47 +35,70 @@ args = Identificador
 ) = Caracter
 { = InicioBloque
 int = TipoDato
-b = Identificador
-= = Asignacion
-Console = Identificador
-. = Caracter
-ReadLine = Identificador
-( = Caracter
-) = Caracter
-; = FinSentencia
-int = TipoDato
 a = Identificador
 = = Asignacion
-( = Caracter
-3 = Numero
-+ = OperadorTermino
-5 = Numero
-) = Caracter
-* = OperadorFactor
-8 = Numero
-- = OperadorTermino
-( = Caracter
-10 = Numero
-- = OperadorTermino
 2 = Numero
-* = OperadorFactor
-b = Identificador
-) = Caracter
-/ = OperadorFactor
-b = Identificador
 ; = FinSentencia
 int = TipoDato
-c = Identificador
+b = Identificador
 = = Asignacion
-Console = Identificador
-. = Caracter
-ReadLine = Identificador
-( = Caracter
-) = Caracter
+3 = Numero
 ; = FinSentencia
+if = PalabraReservada
+( = Caracter
+a = Identificador
+== = OperadorRelacional
+b = Identificador
+) = Caracter
+{ = InicioBloque
 Console = Identificador
 . = Caracter
 WriteLine = Identificador
 ( = Caracter
-c = Identificador
-Error: Sintaxis. Se espera un )en la linea [11] en la columna [22]
+"a es igual a " = Cadena
++ = OperadorTermino
+b = Identificador
+) = Caracter
+; = FinSentencia
+} = FinBloque
+else = PalabraReservada
+if = PalabraReservada
+( = Caracter
+a = Identificador
+!= = OperadorRelacional
+b = Identificador
+) = Caracter
+{ = InicioBloque
+Console = Identificador
+. = Caracter
+WriteLine = Identificador
+( = Caracter
+"a no es igual a " = Cadena
++ = OperadorTermino
+b = Identificador
+) = Caracter
+; = FinSentencia
+a = Identificador
+++ = IncrementoTermino
+; = FinSentencia
+if = PalabraReservada
+( = Caracter
+a = Identificador
+== = OperadorRelacional
+b = Identificador
+) = Caracter
+{ = InicioBloque
+Console = Identificador
+. = Caracter
+WriteLine = Identificador
+( = Caracter
+"a ahora es igual a " = Cadena
++ = OperadorTermino
+b = Identificador
+) = Caracter
+; = FinSentencia
+} = FinBloque
+} = FinBloque
+Lista de variables: 
+a Int 3
+b Int 3

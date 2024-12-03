@@ -5,8 +5,19 @@ using System.Threading.Tasks;
 
 static void Main(string[] args)
 {
-  int b = Console.ReadLine();
-  int a = (3 + 5) * 8 - (10 - 2*b) / b; // 61
-  int c = Console.ReadLine();
-  Console.WriteLine(c);
+int a = 2;
+int b = 3;
+if (a == b)
+{
+  Console.WriteLine("a es igual a " + b);
+}
+else if (a != b)
+{
+  Console.WriteLine("a no es igual a " + b);
+  a++;
+  if (a == b)
+  {
+    Console.WriteLine("a ahora es igual a " + b);
+  }
+}
 }

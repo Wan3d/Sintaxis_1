@@ -20,7 +20,7 @@ NUEVOS REQUERIMIENTOS:
     3) Evaluar las expresiones matemáticas [DONE]
     4) Levantar una excepción si en el Console.(Read | ReadLine) no ingresan números [DONE]
     5) Modificar la variable con el resto de operadores (Incremento de factor y termino) [DONE]
-    6) Implementar el else
+    6) Implementar el else [DONE]
 */
 
 using System;
@@ -245,6 +245,7 @@ namespace Sintaxis_1
         */
         private void Asignacion()
         {
+            float r;
             Variable? v = l.Find(variable => variable.getNombre() == getContenido());
             if (v == null)
             {
@@ -255,22 +256,14 @@ namespace Sintaxis_1
             if (getContenido() == "++")
             {
                 match("++");
-                s.Push(v.getValor() + 1);
+                r = v.getValor() + 1;
+                v.setValor(r);
             }
             else if (getContenido() == "--")
             {
                 match("--");
-                s.Push(v.getValor() - 1);
-            }
-            else if (getClasificacion() == Tipos.IncrementoTermino)
-            {
-                match(Tipos.IncrementoTermino);
-                Expresion();
-            }
-            else if (getClasificacion() == Tipos.IncrementoFactor)
-            {
-                match(Tipos.IncrementoFactor);
-                Expresion();
+                r = v.getValor() - 1;
+                v.setValor(r);
             }
             else if (getContenido() == "=")
             {
@@ -282,55 +275,43 @@ namespace Sintaxis_1
                 else
                 {
                     Expresion();
-                    float r = s.Pop();
+                    r = s.Pop();
                     v.setValor(r);
                 }
-            }
-            else if (getContenido() == "++")
-            {
-                match("++");
-                float r = v.getValor() + 1;
-                v.setValor(r);
-            }
-            else if (getContenido() == "--")
-            {
-                match("--");
-                float r = v.getValor() - 1;
-                v.setValor(r);
             }
             else if (getContenido() == "+=")
             {
                 match("+=");
                 Expresion();
-                float r = v.getValor() + s.Pop();
+                r = v.getValor() + s.Pop();
                 v.setValor(r);
             }
             else if (getContenido() == "-=")
             {
                 match("-=");
                 Expresion();
-                float r = v.getValor() - s.Pop();
+                r = v.getValor() - s.Pop();
                 v.setValor(r);
             }
             else if (getContenido() == "*=")
             {
                 match("*=");
                 Expresion();
-                float r = v.getValor() * s.Pop();
+                r = v.getValor() * s.Pop();
                 v.setValor(r);
             }
             else if (getContenido() == "/=")
             {
                 match("/=");
                 Expresion();
-                float r = v.getValor() / s.Pop();
+                r = v.getValor() / s.Pop();
                 v.setValor(r);
             }
             else if (getContenido() == "%=")
             {
                 match("%=");
                 Expresion();
-                float r = v.getValor() % s.Pop();
+                r = v.getValor() % s.Pop();
                 v.setValor(r);
             }
             //displayStack();
@@ -457,52 +438,59 @@ namespace Sintaxis_1
                 match("Write");
             }
             match("(");
-            string contenido = "";
-            contenido = getContenido().Trim('"');
+            string concatenaciones = "";
             if (getClasificacion() == Tipos.Cadena)
             {
+                concatenaciones = getContenido().Trim('"');
                 match(Tipos.Cadena);
-                if (getContenido() == "+")
-                {
-                    Concatenaciones();
-                }
-                if (ejecuta)
-                {
-                    if (isWriteLine)
-                    {
-                        Console.WriteLine(contenido);
-                    }
-                    else
-                    {
-                        Console.Write(contenido);
-                    }
-                }
             }
-            else
+            if (getContenido() == "+")
             {
-                Console.WriteLine();
+                match("+");
+                concatenaciones += Concatenaciones();  // Se acumula el resultado de las concatenaciones
             }
             match(")");
             match(";");
+            if (ejecuta)
+            {
+                if (isWriteLine)
+                {
+                    Console.WriteLine(concatenaciones);
+                }
+                else
+                {
+                    Console.Write(concatenaciones);
+                }
+            }
         }
         // Concatenaciones -> Identificador|Cadena ( + concatenaciones )?
-        private void Concatenaciones()
+        private string Concatenaciones()
         {
-            match("+");
-            string contenido2 = "";
+            string resultado = "";
             if (getClasificacion() == Tipos.Identificador)
             {
+                Variable? v = l.Find(variable => variable.getNombre() == getContenido());
+                if (v != null)
+                {
+                    resultado = v.getValor().ToString(); // Obtener el valor de la variable y convertirla
+                }
+                else
+                {
+                    throw new Error("La variable " + getContenido() + " no está definida", log, linea, columna);
+                }
                 match(Tipos.Identificador);
             }
             else if (getClasificacion() == Tipos.Cadena)
             {
-                match(Tipos.Cadena);
-                contenido2 = getContenido().Trim('"');
+                resultado = getContenido().Trim('"'); 
+                match(Tipos.Cadena);  
             }
             if (getContenido() == "+")
             {
-                Concatenaciones();
+                match("+");
+                resultado += Concatenaciones();  // Acumula el siguiente fragmento de concatenación
             }
+            return resultado;
         }
         //Main -> static void Main(string[] args) BloqueInstrucciones 
         private void Main()
