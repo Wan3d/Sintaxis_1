@@ -36,7 +36,6 @@ namespace Sintaxis_1
     {
         Stack<float> s;
         List<Variable> l;
-        private Variable.TipoDato t;
         public Lenguaje() : base()
         {
             s = new Stack<float>();
@@ -98,7 +97,7 @@ namespace Sintaxis_1
 
         private void Variables()
         {
-            //Variable.TipoDato t = Variable.TipoDato.Char;
+            Variable.TipoDato t = Variable.TipoDato.Char;
             switch (getContenido())
             {
                 case "int": t = Variable.TipoDato.Int; break;
@@ -482,8 +481,8 @@ namespace Sintaxis_1
             }
             else if (getClasificacion() == Tipos.Cadena)
             {
-                resultado = getContenido().Trim('"'); 
-                match(Tipos.Cadena);  
+                resultado = getContenido().Trim('"');
+                match(Tipos.Cadena);
             }
             if (getContenido() == "+")
             {
