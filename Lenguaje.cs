@@ -18,13 +18,14 @@ NUEVOS REQUERIMIENTOS:
     1) Concatenación [DONE]
     2) Inicializar una variable desde la declaración [DONE]
     3) Evaluar las expresiones matemáticas [DONE]
-    4) Levantar una excepción si en el Console.(Read | ReadLine) no ingresan números 
-    5) Modificar la variable con el resto de operadores (Incremento de factor y termino)
+    4) Levantar una excepción si en el Console.(Read | ReadLine) no ingresan números [DONE]
+    5) Modificar la variable con el resto de operadores (Incremento de factor y termino) [DONE]
     6) Implementar el else
 */
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Threading.Tasks;
@@ -35,6 +36,7 @@ namespace Sintaxis_1
     {
         Stack<float> s;
         List<Variable> l;
+        private Variable.TipoDato t;
         public Lenguaje() : base()
         {
             s = new Stack<float>();
@@ -96,7 +98,7 @@ namespace Sintaxis_1
 
         private void Variables()
         {
-            Variable.TipoDato t = Variable.TipoDato.Char;
+            //Variable.TipoDato t = Variable.TipoDato.Char;
             switch (getContenido())
             {
                 case "int": t = Variable.TipoDato.Int; break;
@@ -125,17 +127,46 @@ namespace Sintaxis_1
         {
             if (l.Find(variable => variable.getNombre() == getContenido()) != null)
             {
-                throw new Error("Sintaxis: La variable " + getContenido() + " ya existe", log, linea, columna);
+                throw new Error($"La variable {getContenido()} ya existe", log, linea, columna);
             }
             l.Add(new Variable(t, getContenido()));
             match(Tipos.Identificador);
             if (getContenido() == "=")
             {
                 match("=");
-                Expresion();
-                float r = s.Pop();
-                Variable v = l.Last();
-                v.setValor(r);
+                if (getContenido() == "Console")
+                {
+                    match("Console");
+                    match(".");
+                    if (getContenido() == "Read")
+                    {
+                        match("Read");
+                        int r = Console.Read();
+                        l.Last().setValor(r); // Asignamos el último valor leído a la última variable detectada
+                    }
+                    else
+                    {
+                        match("ReadLine");
+                        string? r = Console.ReadLine();
+                        if (float.TryParse(r, out float valor))
+                        {
+                            l.Last().setValor(valor);
+                        }
+                        else
+                        {
+                            throw new Error("Sintaxis. No se ingresó un número ", log, linea, columna);
+                        }
+                    }
+                    match("(");
+                    match(")");
+                }
+                else
+                {
+                    // Como no se ingresó un número desde el Console, entonces viene de una expresión matemática
+                    Expresion();
+                    float resultado = s.Pop();
+                    l.Last().setValor(resultado);
+                }
             }
             if (getContenido() == ",")
             {
@@ -246,28 +277,62 @@ namespace Sintaxis_1
                 match("=");
                 if (getContenido() == "Console")
                 {
-                    match("Console");
-                    match(".");
-                    if (getContenido() == "Read")
-                    {
-                        match("Read");
-                        Console.Read();
-                    }
-                    else if (getContenido() == "ReadLine")
-                    {
-                        match("ReadLine");
-                        Console.ReadLine();
-                    }
-                    match("(");
-                    match(")");
+                    ListaIdentificadores(v.GetTipoDato()); // Ya se hace este procedimiento arriba así que simplemente obtenemos a través del método lo que necesitamos
                 }
                 else
                 {
                     Expresion();
+                    float r = s.Pop();
+                    v.setValor(r);
                 }
             }
-            float r = s.Pop();
-            v.setValor(r);
+            else if (getContenido() == "++")
+            {
+                match("++");
+                float r = v.getValor() + 1;
+                v.setValor(r);
+            }
+            else if (getContenido() == "--")
+            {
+                match("--");
+                float r = v.getValor() - 1;
+                v.setValor(r);
+            }
+            else if (getContenido() == "+=")
+            {
+                match("+=");
+                Expresion();
+                float r = v.getValor() + s.Pop();
+                v.setValor(r);
+            }
+            else if (getContenido() == "-=")
+            {
+                match("-=");
+                Expresion();
+                float r = v.getValor() - s.Pop();
+                v.setValor(r);
+            }
+            else if (getContenido() == "*=")
+            {
+                match("*=");
+                Expresion();
+                float r = v.getValor() * s.Pop();
+                v.setValor(r);
+            }
+            else if (getContenido() == "/=")
+            {
+                match("/=");
+                Expresion();
+                float r = v.getValor() / s.Pop();
+                v.setValor(r);
+            }
+            else if (getContenido() == "%=")
+            {
+                match("%=");
+                Expresion();
+                float r = v.getValor() % s.Pop();
+                v.setValor(r);
+            }
             //displayStack();
         }
         /*If -> if (Condicion) bloqueInstrucciones | instruccion
@@ -276,7 +341,7 @@ namespace Sintaxis_1
         {
             match("if");
             match("(");
-            bool ejecuta = Condicion();
+            bool ejecuta = Condicion() && ejecuta2;
             Console.WriteLine(ejecuta);
             match(")");
             if (getContenido() == "{")
@@ -290,13 +355,14 @@ namespace Sintaxis_1
             if (getContenido() == "else")
             {
                 match("else");
+                bool ejecutarElse = !ejecuta; // Solo se ejecuta el else si el if no se ejecutó
                 if (getContenido() == "{")
                 {
-                    BloqueInstrucciones(false);
+                    BloqueInstrucciones(ejecutarElse);
                 }
                 else
                 {
-                    Instruccion(false);
+                    Instruccion(ejecutarElse);
                 }
             }
         }
@@ -392,16 +458,18 @@ namespace Sintaxis_1
             }
             match("(");
             string contenido = "";
+            contenido = getContenido().Trim('"');
             if (getClasificacion() == Tipos.Cadena)
             {
-                contenido = getContenido().Trim('"');
                 match(Tipos.Cadena);
-                Concatenaciones();
+                if (getContenido() == "+")
+                {
+                    Concatenaciones();
+                }
                 if (ejecuta)
                 {
                     if (isWriteLine)
                     {
-
                         Console.WriteLine(contenido);
                     }
                     else
@@ -420,6 +488,7 @@ namespace Sintaxis_1
         // Concatenaciones -> Identificador|Cadena ( + concatenaciones )?
         private void Concatenaciones()
         {
+            match("+");
             string contenido2 = "";
             if (getClasificacion() == Tipos.Identificador)
             {
@@ -432,7 +501,6 @@ namespace Sintaxis_1
             }
             if (getContenido() == "+")
             {
-                match("+");
                 Concatenaciones();
             }
         }
@@ -513,9 +581,8 @@ namespace Sintaxis_1
                 Variable? v = l.Find(variable => variable.getNombre() == getContenido());
                 if (v == null)
                 {
-                    throw new Error("Sintaxis: la variable " + getContenido() + " no está definida ", log, linea, columna);
+                    throw new Error("Sintaxis: la variable " + getContenido() + " no está definida", log, linea, columna);
                 }
-
                 s.Push(v.getValor());
                 //Console.Write(getContenido() + " ");
                 match(Tipos.Identificador);
